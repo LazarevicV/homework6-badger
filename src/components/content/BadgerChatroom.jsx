@@ -124,7 +124,7 @@ export default function BadgerChatroom(props) {
                     ref={titleRef}
                   />
                 </Form.Group>
-                <Form.Group>
+                <Form.Group className="mb-2">
                   <Form.Label>Content</Form.Label>
                   <Form.Control
                     as="textarea"

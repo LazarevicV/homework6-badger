@@ -46,6 +46,7 @@ export default function BadgerRegister() {
 
     if (response.status === 200) {
       setSuccessMessage("Registration was successful.");
+      alert("Registration was successful.");
       navigate("/");
     } else if (response.status === 409) {
       setAlertMessage("That username has already been taken.");

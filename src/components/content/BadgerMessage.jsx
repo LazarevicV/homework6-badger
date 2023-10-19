@@ -39,15 +39,19 @@ export default function BadgerMessage(props) {
     }
   };
 
+  const dt = new Date(props.created);
+
   return (
-    <Card className="mb-4">
-      <Card.Body>
-        <Card.Title>{props.title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">
-          Posted by {props.poster}
-        </Card.Subtitle>
-        <Card.Text>{props.content}</Card.Text>
-      </Card.Body>
+    <Card style={{ margin: "0.5rem", padding: "0.5rem" }}>
+      <h2>{props.title}</h2>
+      <sub className="mb-2">
+        Posted on {dt.toLocaleDateString()} at {dt.toLocaleTimeString()}
+      </sub>
+      <br />
+      <b>
+        <i>{props.poster}</i>
+      </b>
+      <p>{props.content}</p>
       {isAuth && isAuth.username === props.poster && (
         <Button variant="danger" className="w-100" onClick={props.onDelete}>
           Delete
