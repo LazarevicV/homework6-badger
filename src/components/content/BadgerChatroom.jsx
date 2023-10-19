@@ -30,6 +30,7 @@ export default function BadgerChatroom(props) {
         alert("Successfully deleted the post!");
         const updatedMessages = messages.filter((message) => message.id !== id);
         setMessages(updatedMessages);
+        loadMessages(currentPage);
         return;
       } else if (response.status === 401) {
         alert("You must be logged in to delete this post!");

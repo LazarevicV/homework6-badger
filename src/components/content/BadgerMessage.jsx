@@ -39,7 +39,7 @@ export default function BadgerMessage(props) {
   };
 
   return (
-    <Card>
+    <Card className="mb-4">
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
@@ -48,7 +48,7 @@ export default function BadgerMessage(props) {
         <Card.Text>{props.content}</Card.Text>
       </Card.Body>
       {loginStatus && loginStatus.username === props.poster && (
-        <Button variant="danger" className="w-100" onClick={handleDelete}>
+        <Button variant="danger" className="w-100" onClick={props.onDelete}>
           Delete
         </Button>
       )}
