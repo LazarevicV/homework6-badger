@@ -1,9 +1,12 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
+
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function BadgerLogin() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
+  const { isAuth, login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -15,29 +18,15 @@ export default function BadgerLogin() {
       return;
     }
 
-    const response = await fetch("https://cs571.org/api/f23/hw6/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CS571-ID":
-          "bid_0b4205efee70bd68a21f388da669df15d30df5e64a50ab1a879a2ff465b9c497",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    });
+    if (isAuth) return;
 
-    if (response.status === 200) {
-      alert("Login was successful.");
-      sessionStorage.setItem("loginStatus", JSON.stringify({ username }));
-      navigate("/");
-    } else if (response.status === 401) {
-      alert("Incorrect username or password!");
-    } else {
-      alert("Login failed. Please try again.");
-    }
+    await login({
+      username,
+      password,
+      onSuccess: () => {
+        navigate("/");
+      },
+    });
   };
 
   return (

@@ -1,24 +1,21 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function BadgerLogout() {
+  const { isAuth, logout } = useAuth();
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://cs571.org/api/f23/hw6/logout", {
-      method: "POST",
-      headers: {
-        "X-CS571-ID":
-          "bid_0b4205efee70bd68a21f388da669df15d30df5e64a50ab1a879a2ff465b9c497",
-      },
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        sessionStorage.removeItem("loginStatus");
+    if (!isAuth) return;
+
+    logout({
+      onSuccess: () => {
         navigate("/");
-      });
-  }, []);
+      },
+    });
+  }, [isAuth, logout, navigate]);
 
   return (
     <>

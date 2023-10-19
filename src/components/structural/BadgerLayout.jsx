@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom";
 
 import crest from "../../assets/uw-crest.svg";
 import BadgerLoginStatusContext from "../contexts/BadgerLoginStatusContext";
+import { useAuth } from "../contexts/AuthContext";
 
 function BadgerLayout(props) {
-  const storedLoginStatus = sessionStorage.getItem("loginStatus");
-  const [loginStatus, setLoginStatus] = useState(
-    storedLoginStatus ? JSON.parse(storedLoginStatus) : undefined
-  );
-
-  useEffect(() => {
-    if (loginStatus) {
-      sessionStorage.setItem("loginStatus", JSON.stringify(loginStatus));
-    } else {
-      sessionStorage.removeItem("loginStatus");
-    }
-  }, [loginStatus]);
+  const { isAuth } = useAuth();
 
   return (
     <div>
@@ -37,7 +26,7 @@ function BadgerLayout(props) {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
-            {loginStatus ? (
+            {isAuth ? (
               <Nav.Link as={Link} to="logout">
                 Logout
               </Nav.Link>
@@ -67,11 +56,7 @@ function BadgerLayout(props) {
         </Container>
       </Navbar>
       <div style={{ margin: "1rem" }}>
-        <BadgerLoginStatusContext.Provider
-          value={[loginStatus, setLoginStatus]}
-        >
-          <Outlet />
-        </BadgerLoginStatusContext.Provider>
+        <Outlet />
       </div>
     </div>
   );

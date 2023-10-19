@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { Card, Button } from "react-bootstrap";
 import BadgerLoginStatusContext from "../contexts/BadgerLoginStatusContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function BadgerMessage(props) {
   const [loginStatus] = useContext(BadgerLoginStatusContext);
+  const { isAuth } = useAuth();
 
   const handleDelete = async () => {
-    // Ensure that the user is logged in and the post belongs to the logged-in user
     if (loginStatus && loginStatus.username === props.poster) {
       try {
         const response = await fetch(
@@ -23,8 +24,8 @@ export default function BadgerMessage(props) {
 
         if (response.status === 200) {
           alert("Successfully deleted the post!");
-          props.onDelete(); // Move this line here
-          return; // Add this return statement
+          props.onDelete();
+          return;
         } else if (response.status === 401) {
           alert("You must be logged in to delete this post!");
         } else if (response.status === 401) {
@@ -47,7 +48,7 @@ export default function BadgerMessage(props) {
         </Card.Subtitle>
         <Card.Text>{props.content}</Card.Text>
       </Card.Body>
-      {loginStatus && loginStatus.username === props.poster && (
+      {isAuth && isAuth.username === props.poster && (
         <Button variant="danger" className="w-100" onClick={props.onDelete}>
           Delete
         </Button>

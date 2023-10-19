@@ -2,12 +2,13 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import BadgerMessage from "./BadgerMessage";
 import { Container, Row, Col, Pagination, Form, Button } from "react-bootstrap";
 import BadgerLoginStatusContext from "../contexts/BadgerLoginStatusContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function BadgerChatroom(props) {
   const [messages, setMessages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [newPost, setNewPost] = useState({ title: "", content: "" });
-  const [loginStatus] = useContext(BadgerLoginStatusContext);
+  const { isAuth } = useAuth();
   const titleRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -112,7 +113,7 @@ export default function BadgerChatroom(props) {
       <hr />
       <Row>
         <Col md={4}>
-          {loginStatus ? (
+          {isAuth ? (
             <div>
               <Form>
                 <Form.Group>

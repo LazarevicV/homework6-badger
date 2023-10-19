@@ -28,7 +28,6 @@ export default function BadgerRegister() {
       return;
     }
 
-    // Perform the API call to register the user
     const response = await fetch("https://cs571.org/api/f23/hw6/register", {
       method: "POST",
       credentials: "include",
